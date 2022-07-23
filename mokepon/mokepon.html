@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mokepon</title>
+</head>
+<body style="background-color: #eee;">
+  <h1>Mokepon 🔥🌊🌱</h1>
+
+  <!-- seleccionar mokepon -->
+  <section id="seleccionar-mokepon">
+    <h2>Eige a tu mokepon:</h2>
+
+    MOKEPONES<br />
+    <label for="hipodoge">Hipodoge -- Agua🌊</label>
+    <input type="radio" name="mokepon" id="hipodoge" />
+
+    <label for="capipepo">Capipepo -- Tierra🌱</label>
+    <input type="radio" name="mokepon" id="capipepo" />
+
+    <label for="ratigueya">Ratigueya -- Fuego🔥</label>
+    <input type="radio" name="mokepon" id="ratigueya" />
+
+    <label for="langostelvis">Langostelvis -- Agua🌊 y Fuego🔥</label>
+    <input type="radio" name="mokepon" id="langostelvis" />
+
+    <label for="tucapalma">Tucapalma -- Agua🌊 y Tierra🌱</label>
+    <input type="radio" name="mokepon" id="tucapalma" />
+
+    <label for="pydos">Pydos -- Tierra🌱 y Fuego🔥</label>
+    <input type="radio" name="mokepon" id="pydos" />
+
+    <button id="boton-mokepon">Seleccionar</button>
+  </section>
+
+  <!-- seleccionar ataque -->
+  <section id="seleccionar-ataque">
+    <h2>Elige tu ataque:</h2>
+    <p>Tu mokepon tiene <span>3</span> vidas</p>
+    <p>El mokepon del enemigo tiene <span>3</span> vidas</p>
+    <p>
+      <button id="boton-fuego">Fuego 🔥</button>
+      <button id="boton-agua">Agua 🌊</button>
+      <button id="boton-tierra">Tierra 🌱</button>
+    </p>
+  </section>
+
+  <!-- mostrando combate -->
+  <section id="mensajes">
+    <p>Tu mokepon atacó con FUEGO, el mokepon de tu enemigo atacó con TIERRA - Ganaste 🎉</p>
+  </section>
+
+  <!-- Reiniciando el juego -->
+  <section id="reiniciar">
+    <button id="boton-reiniciar">Reiniciar</button>
+  </section>
+  <script src="./js/mokepon.js"></script>
+</body>
+</html>
