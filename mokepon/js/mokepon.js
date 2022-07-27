@@ -40,9 +40,12 @@ function seleccionarMokeponJugador() {
   if (contador === 0) {
     alert('Seleccione una opción')
   } else {
-    //deshabilitando boton-mokepon 
-    let botonMokeponJugador = document.getElementById('boton-mokepon') //seleccionando boton
-    botonMokeponJugador.disabled = true
+    //ocultando la seccion seleccionar-mokepon
+    let sectionSeleccionarMokepon = document.getElementById('seleccionar-mokepon')
+    sectionSeleccionarMokepon.style.display = 'none'
+    //mostrando la seccion seleccionar-ataque
+    let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
+    sectionSeleccionarAtaque.style.display = 'block'
     //mokepon enemigo
     seleccionarMokeponEnemigo()
   }
@@ -74,6 +77,10 @@ function crearMensajeFinal(resultadoFinal) {
   botonAgua.disabled = true
   let botonTierra = document.getElementById('boton-tierra')
   botonTierra.disabled = true
+ 
+  //mostrando la seccion reiniciar
+  let sectionReiniciar = document.getElementById('reiniciar')
+  sectionReiniciar.style.display = 'block'
 }
 
 
@@ -169,6 +176,13 @@ function reiniciarJuego() {
 
 // función de arranque del programa
 function iniciarJuego() {
+  //ocultando la seccion seleccionar-ataque
+  let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
+  sectionSeleccionarAtaque.style.display = 'none'
+  //ocultando la seccion reiniciar
+  let sectionReiniciar = document.getElementById('reiniciar')
+  sectionReiniciar.style.display = 'none'
+ 
   //seleccionar mokepon
   let botonMokeponJugador = document.getElementById('boton-mokepon') //seleccionando boton
   botonMokeponJugador.addEventListener('click', seleccionarMokeponJugador) //escuchado eventos
