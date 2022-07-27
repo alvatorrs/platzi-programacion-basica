@@ -40,6 +40,10 @@ function seleccionarMokeponJugador() {
   if (contador === 0) {
     alert('Seleccione una opción')
   } else {
+    //deshabilitando boton-mokepon 
+    let botonMokeponJugador = document.getElementById('boton-mokepon') //seleccionando boton
+    botonMokeponJugador.disabled = true
+    //mokepon enemigo
     seleccionarMokeponEnemigo()
   }
 }
@@ -62,7 +66,16 @@ function crearMensajeFinal(resultadoFinal) {
   parrafo.innerHTML = resultadoFinal //contenido del parrafo
   //ubicación del parrafo
   sectionMensajes.appendChild(parrafo) //metiendo el parrafo en section con id="mensajes"
+ 
+  //deshabilitando los botones
+  let botonFuego = document.getElementById('boton-fuego')
+  botonFuego.disabled = true
+  botonAgua = document.getElementById('boton-agua')
+  botonAgua.disabled = true
+  let botonTierra = document.getElementById('boton-tierra')
+  botonTierra.disabled = true
 }
+
 
 // revisar vidas
 function revisarVidas() {
@@ -88,7 +101,7 @@ function crearMensaje(resultado) {
 
 
 // resultado combate
-function combate(ataqueJugador, ataqueEnemigo){
+function combate(ataqueJugador, ataqueEnemigo) {
   let spanVidasJugador = document.getElementById('vidas-jugador')
   let spanVidasEnemigo = document.getElementById('vidas-enemigo')
  
@@ -145,6 +158,13 @@ function ataqueJugadorTierra() {
   ataqueAleatorioEnemigo()
 } 
 
+
+// REINICIANDO EL JUEGO
+function reiniciarJuego() {
+  location.reload()
+}
+
+
 // INICIO
 
 // función de arranque del programa
@@ -159,6 +179,9 @@ function iniciarJuego() {
   botonAgua.addEventListener('click', ataqueJugadorAgua)
   let botonTierra = document.getElementById('boton-tierra')
   botonTierra.addEventListener('click', ataqueJugadorTierra)
+  //boton de reinicio
+  let botonReiniciar = document.getElementById('boton-reiniciar')
+  botonReiniciar.addEventListener('click', reiniciarJuego)
 }
 
 
