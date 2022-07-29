@@ -5,33 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mokepon</title>
   <script src="./js/mokepon.js"></script>
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <h1>Mokepon 🔥🌊🌱</h1>
+  <h1 class="titulo">Mokepon 🔥🌊🌱</h1>
 
   <!-- seleccionar mokepon -->
   <section id="seleccionar-mokepon">
-    <h2>Eige a tu mokepon:</h2>
+    <h2 class="subtitulo">Eige a tu mokepon:</h2>
+    
+    <div class="tarjetas">
+      <label for="hipodoge" class="tarjeta-mokepon">
+        <p>Hipodoge - 🌊</p>
+        <img src="./assets/mokepons_mokepon_hipodoge_attack.webp" alt="Hipodoge">
+      </label>
+      <input type="radio" name="mokepon" id="hipodoge" />
 
-    MOKEPONES<br>
-    <label for="hipodoge">Hipodoge -- Agua🌊</label>
-    <input type="radio" name="mokepon" id="hipodoge" />
-    <br>
-    <label for="capipepo">Capipepo -- Tierra🌱</label>
-    <input type="radio" name="mokepon" id="capipepo" />
-    <br>
-    <label for="ratigueya">Ratigueya -- Fuego🔥</label>
-    <input type="radio" name="mokepon" id="ratigueya" />
-    <br>
-    <label for="langostelvis">Langostelvis -- Agua🌊 y Fuego🔥</label>
-    <input type="radio" name="mokepon" id="langostelvis" />
-    <br>
-    <label for="tucapalma">Tucapalma -- Agua🌊 y Tierra🌱</label>
-    <input type="radio" name="mokepon" id="tucapalma" />
-    <br>
-    <label for="pydos">Pydos -- Tierra🌱 y Fuego🔥</label>
-    <input type="radio" name="mokepon" id="pydos" />
-    <br>
+      <label for="capipepo" class="tarjeta-mokepon">
+        <p>Capipepo - 🌱</p>
+        <img src="./assets/mokepons_mokepon_capipepo_attack.webp" alt="Capipepo">
+      </label>
+      <input type="radio" name="mokepon" id="capipepo" />
+
+      <label for="ratigueya" class="tarjeta-mokepon">
+        <p>Ratigueya - 🔥</p>
+        <img src="./assets/mokepons_mokepon_ratigueya_attack.webp" alt="Ratigueya">
+      </label>
+      <input type="radio" name="mokepon" id="ratigueya" />
+
+      <label for="langostelvis" class="tarjeta-mokepon">
+        <p>Langostelvis - 🌊 🔥</p>
+        <img src="" alt="Langostelvis">
+      </label>
+      <input type="radio" name="mokepon" id="langostelvis" />
+
+      <label for="tucapalma" class="tarjeta-mokepon">
+        <p>Tucapalma - 🌊 🌱</p>
+        <img src="" alt="Tucapalma">
+      </label>
+      <input type="radio" name="mokepon" id="tucapalma" />
+
+      <label for="pydos" class="tarjeta-mokepon">
+        <p>Pydos - 🌱 🔥</p>
+        <img src="" alt="Pydos">
+      </label>
+      <input type="radio" name="mokepon" id="pydos" />
+    </div>
+
     <button id="boton-mokepon">Seleccionar</button>
   </section>
 
