@@ -34,19 +34,19 @@
       <input type="radio" name="mokepon" id="ratigueya" />
 
       <label for="langostelvis" class="tarjeta-mokepon">
-        <p>Langostelvis - 🌊 🔥</p>
+        <p>Langostelvis - 🌊🔥</p>
         <img src="" alt="Langostelvis">
       </label>
       <input type="radio" name="mokepon" id="langostelvis" />
 
       <label for="tucapalma" class="tarjeta-mokepon">
-        <p>Tucapalma - 🌊 🌱</p>
+        <p>Tucapalma - 🌊🌱</p>
         <img src="" alt="Tucapalma">
       </label>
       <input type="radio" name="mokepon" id="tucapalma" />
 
       <label for="pydos" class="tarjeta-mokepon">
-        <p>Pydos - 🌱 🔥</p>
+        <p>Pydos - 🌱🔥</p>
         <img src="" alt="Pydos">
       </label>
       <input type="radio" name="mokepon" id="pydos" />
@@ -57,30 +57,33 @@
 
   <!-- seleccionar ataque -->
   <section id="seleccionar-ataque">
-    <h2>Elige tu ataque:</h2>
-    <p>
-      Tu mokepon <span id="mokepon-jugador"></span> 
-      tiene <span id="vidas-jugador">3</span> vidas
-    </p>
-    <p>
-      El mokepon <span id="mokepon-enemigo"></span> 
-      del enemigo tiene <span id="vidas-enemigo">3</span> vidas
-    </p>
-    <p>
-      <button id="boton-fuego">Fuego 🔥</button>
-      <button id="boton-agua">Agua 🌊</button>
-      <button id="boton-tierra">Tierra 🌱</button>
-    </p>
-  </section>
-
-  <!-- mostrando combate -->
-  <section id="mensajes">
-    <!-- Se inserta un elemento p desde JS -->
-  </section>
-
-  <!-- Reiniciando el juego -->
-  <section id="reiniciar">
-    <button id="boton-reiniciar">Reiniciar</button>
+    <h2 class="subtitulo">Elige tu ataque:</h2>
+    <div class="contenedor-botones-ataque">
+      <button id="boton-fuego" class="boton-ataque">Fuego 🔥</button>
+      <button id="boton-agua" class="boton-ataque">Agua 🌊</button>
+      <button id="boton-tierra" class="boton-ataque">Tierra 🌱</button>
+    </div>
+    <!-- mensaje desde JS y boton de reiniciar -->
+    <div id="mensajes">
+      <p id="resultado">Mucha suerte</p>
+      <!-- reiniciando el juego -->
+      <section id="reiniciar">
+        <button id="boton-reiniciar">Reiniciar</button>
+      </section>
+    </div>
+    <!-- vidas jugadores -->
+    <div>
+      <div id="ataque-jugador"></div>
+      <p>
+        Tu mokepon <span id="mokepon-jugador"></span> 
+        tiene <span id="vidas-jugador">3</span> vidas
+      </p>
+      <div id="ataque-enemigo"></div>
+      <p>
+        El mokepon <span id="mokepon-enemigo"></span> 
+        del enemigo tiene <span id="vidas-enemigo">3</span> vidas
+      </p>
+    </div>
   </section>
 </body>
 </html>

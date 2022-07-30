@@ -45,7 +45,7 @@ function seleccionarMokeponJugador() {
     sectionSeleccionarMokepon.style.display = 'none'
     //mostrando la seccion seleccionar-ataque
     let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
-    sectionSeleccionarAtaque.style.display = 'block'
+    sectionSeleccionarAtaque.style.display = 'flex'
     //mokepon enemigo
     seleccionarMokeponEnemigo()
   }
@@ -62,13 +62,10 @@ let vidasEnemigo = 3
 
 // insertar mensaje fin del juego
 function crearMensajeFinal(resultadoFinal) {
-  //elemento HTML donde se insertara el parrafo
-  let sectionMensajes = document.getElementById('mensajes')
-  //creando el parrafo
-  let parrafo = document.createElement('p') //elemento a crear
-  parrafo.innerHTML = resultadoFinal //contenido del parrafo
-  //ubicación del parrafo
-  sectionMensajes.appendChild(parrafo) //metiendo el parrafo en section con id="mensajes"
+  //trayendo el elementoHTML con id="resultado" 
+  let pResultado = document.getElementById('resultado')
+  //agregando el resultado final
+  pResultado.innerHTML = resultadoFinal //contenido del parrafo
  
   //deshabilitando los botones
   let botonFuego = document.getElementById('boton-fuego')
@@ -97,13 +94,23 @@ function revisarVidas() {
 
 // insertar nuevos mensajes
 function crearMensaje(resultado) {
-  //elemento HTML donde se insertara el parrafo
-  let sectionMensajes = document.getElementById('mensajes')
-  //creando el parrafo
-  let parrafo = document.createElement('p') //elemento a crear
-  parrafo.innerHTML = `Tu mokepon atacó con ${ataqueJugador}, el mokepon de tu enemigo atacó con ${ataqueEnemigo} - ${resultado}` //contenido del elemento
-  //ubicación del parrafo
-  sectionMensajes.appendChild(parrafo) //metiendo el parrafo en section con id="mensajes"
+  //elemento HTML donde se insertara el resultado
+  let pResultado = document.getElementById('resultado')
+  //elemento HTML donde se insertara el ataque del jugador
+  let divAtaqueJugador = document.getElementById('ataque-jugador')
+  //elemento HTML donde se insertara el ataque del enemigo
+  let divAtaqueEnemigo = document.getElementById('ataque-enemigo')
+  
+  //parrafo resultado
+  pResultado.innerHTML = ` ${resultado}` //contenido del elemento
+  //parrafo ataque jugador
+  let parrafoAtaqueJugador = document.createElement('p')
+  parrafoAtaqueJugador.innerHTML = `${ataqueJugador}`
+  divAtaqueJugador.appendChild(parrafoAtaqueJugador) //ubicación
+  //parrafo ataque enemigo
+  let parrafoAtaqueEnemigo = document.createElement('p')
+  parrafoAtaqueEnemigo.innerHTML = `${ataqueEnemigo}`
+  divAtaqueEnemigo.appendChild(parrafoAtaqueEnemigo)
 }
 
 
