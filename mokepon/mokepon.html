@@ -15,41 +15,41 @@
     <h2 class="subtitulo">Eige a tu mokepon:</h2>
     
     <div class="tarjetas">
+      <input type="radio" name="mokepon" id="hipodoge" />
       <label for="hipodoge" class="tarjeta-mokepon">
         <p>Hipodoge - 🌊</p>
         <img src="./assets/mokepons_mokepon_hipodoge_attack.webp" alt="Hipodoge">
       </label>
-      <input type="radio" name="mokepon" id="hipodoge" />
 
+      <input type="radio" name="mokepon" id="capipepo" />
       <label for="capipepo" class="tarjeta-mokepon">
         <p>Capipepo - 🌱</p>
         <img src="./assets/mokepons_mokepon_capipepo_attack.webp" alt="Capipepo">
       </label>
-      <input type="radio" name="mokepon" id="capipepo" />
 
+      <input type="radio" name="mokepon" id="ratigueya" />
       <label for="ratigueya" class="tarjeta-mokepon">
         <p>Ratigueya - 🔥</p>
         <img src="./assets/mokepons_mokepon_ratigueya_attack.webp" alt="Ratigueya">
       </label>
-      <input type="radio" name="mokepon" id="ratigueya" />
 
+      <input type="radio" name="mokepon" id="langostelvis" />
       <label for="langostelvis" class="tarjeta-mokepon">
         <p>Langostelvis - 🌊🔥</p>
         <img src="" alt="Langostelvis">
       </label>
-      <input type="radio" name="mokepon" id="langostelvis" />
 
+      <input type="radio" name="mokepon" id="tucapalma" />
       <label for="tucapalma" class="tarjeta-mokepon">
         <p>Tucapalma - 🌊🌱</p>
         <img src="" alt="Tucapalma">
       </label>
-      <input type="radio" name="mokepon" id="tucapalma" />
 
+      <input type="radio" name="mokepon" id="pydos" />
       <label for="pydos" class="tarjeta-mokepon">
         <p>Pydos - 🌱🔥</p>
         <img src="" alt="Pydos">
       </label>
-      <input type="radio" name="mokepon" id="pydos" />
     </div>
 
     <button id="boton-mokepon">Seleccionar</button>
@@ -72,17 +72,17 @@
       </section>
     </div>
     <!-- vidas jugadores -->
-    <div>
-      <div id="ataque-jugador"></div>
-      <p>
-        Tu mokepon <span id="mokepon-jugador"></span> 
-        tiene <span id="vidas-jugador">3</span> vidas
-      </p>
-      <div id="ataque-enemigo"></div>
-      <p>
-        El mokepon <span id="mokepon-enemigo"></span> 
-        del enemigo tiene <span id="vidas-enemigo">3</span> vidas
-      </p>
+    <div class="ataques">
+      <div class="datos-jugador">
+        <p id="mokepon-jugador"></p>
+        <p id="vidas-jugador">3</p>
+        <div id="ataque-jugador"></div>
+      </div>
+      <div class="datos-enemigo">
+        <p id="mokepon-enemigo"></p>
+        <p id="vidas-enemigo">3</p>
+        <div id="ataque-enemigo"></div>
+      </div>
     </div>
   </section>
 </body>

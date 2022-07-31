@@ -116,8 +116,8 @@ function crearMensaje(resultado) {
 
 // resultado combate
 function combate(ataqueJugador, ataqueEnemigo) {
-  let spanVidasJugador = document.getElementById('vidas-jugador')
-  let spanVidasEnemigo = document.getElementById('vidas-enemigo')
+  let pVidasJugador = document.getElementById('vidas-jugador')
+  let pVidasEnemigo = document.getElementById('vidas-enemigo')
  
   if (ataqueJugador === ataqueEnemigo) {
     crearMensaje('Empate ⚔')
@@ -125,22 +125,22 @@ function combate(ataqueJugador, ataqueEnemigo) {
   else if (ataqueJugador === 'FUEGO' && ataqueEnemigo === 'TIERRA') {
     crearMensaje('Ganaste 🎉')
     vidasEnemigo--
-    spanVidasEnemigo.innerHTML = vidasEnemigo
+    pVidasEnemigo.innerHTML = vidasEnemigo
   }
   else if (ataqueJugador === 'AGUA' && ataqueEnemigo === 'FUEGO') {
     crearMensaje('Ganaste 🎉')
     vidasEnemigo--
-    spanVidasEnemigo.innerHTML = vidasEnemigo
+    pVidasEnemigo.innerHTML = vidasEnemigo
   }
   else if (ataqueJugador === 'TIERRA' && ataqueEnemigo === 'AGUA') {
     crearMensaje('Ganaste 🎉')
     vidasEnemigo--
-    spanVidasEnemigo.innerHTML = vidasEnemigo
+    pVidasEnemigo.innerHTML = vidasEnemigo
   }
   else {
     crearMensaje('Perdiste 💀')
     vidasJugador--
-    spanVidasJugador.innerHTML = vidasJugador
+    pVidasJugador.innerHTML = vidasJugador
   }
  
   revisarVidas()

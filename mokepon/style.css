@@ -21,7 +21,8 @@ body {
 /* seleccionar mokepon */
 #seleccionar-mokepon {
   background-color: slateblue;
-  height: 540px;
+  min-height: 560px;
+  margin: 6px 0;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -30,6 +31,7 @@ body {
 
 /* div seleccionr mokepon */
 .tarjetas {
+  height: 400px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -39,6 +41,10 @@ body {
 
 .tarjetas input {
   display: none;
+}
+
+.tarjetas input:checked + label {
+  background-color: #FFBF00;
 }
 
 /* label seleccionar mokepon */
@@ -88,8 +94,8 @@ body {
 /* seleccionar ataque */
 #seleccionar-ataque {
   background-color: slateblue;
-  height: 540px;
-  /*display: flex;*/
+  min-height: 560px;
+  margin: 6px 0;
   flex-direction: column;
   align-items: center;
 }
@@ -145,10 +151,43 @@ body {
   color: white;
 }
 
+/* vidas jugadores */
+.ataques {
+  display: grid;
+  grid-template-columns: 100px 100px;
+  text-align: center;
+}
+
 #ataque-jugador {
   background-color: plum;
 }
 
 #ataque-enemigo {
   background-color: indianred;
+}
+
+#vidas-jugador, #vidas-enemigo {
+  font-size: 32px;
+  margin-bottom: 0;
+}
+
+/*.datos-jugador, .datos-enemigo {*/
+  /*display: flex;*/
+  /*flex-direction: column;*/
+  /*align-items: center;*/
+/*}*/
+
+/* Responsive Design */
+@media (max-width: 360px) {
+  /* label seleccionar mokepon */
+  .tarjeta-mokepon {
+    max-width: 200px;
+    flex-direction: column;
+  }
+  /* botones de ataque */
+  .contenedor-botones-ataque {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
 }
