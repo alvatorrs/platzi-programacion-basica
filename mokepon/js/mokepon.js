@@ -1,82 +1,51 @@
-// SELECCIONANDO MOKEPONES
+/* DECLARACIONES */
+//iniciarJuego()
+let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
+let sectionReiniciar = document.getElementById('reiniciar')
+let botonMokeponJugador = document.getElementById('boton-mokepon') 
+let botonFuego = document.getElementById('boton-fuego')
+let botonAgua = document.getElementById('boton-agua')
+let botonTierra = document.getElementById('boton-tierra')
+let botonReiniciar = document.getElementById('boton-reiniciar')
+//seleccionarMokeponJugador()
 let mokepones = ['hipodoge', 'capipepo', 'ratigueya', 'langostelvis', 'tucapalma', 'pydos']
+let spanMokeponJugador = document.getElementById('mokepon-jugador')
+let inputMokepon
+let sectionSeleccionarMokepon = document.getElementById('seleccionar-mokepon')
+//seleccionarMokeponEnemigo()
+let spanMokeponEnemigo = document.getElementById('mokepon-enemigo') 
 
-
-// definiendo la aleatoriedad
-function aleatorio(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min
-}
-
-
-// se llama justo después de seleccionarMokeponJugador
-function seleccionarMokeponEnemigo() {
-  let spanMokeponEnemigo = document.getElementById('mokepon-enemigo') //trae el span
-  let mokeponAleatorio = aleatorio(0, mokepones.length -1) //valor aleatorio entre mokepones
-  let mokepon = mokepones[mokeponAleatorio]
-  mokepon = mokepon.charAt(0).toUpperCase() + mokepon.slice(1) //capitalizando
-  spanMokeponEnemigo.innerHTML = mokepon
-}
-
-
-//muestra el mokepon seleccionado una vez se de click al boton
-function seleccionarMokeponJugador() {
-  let spanMokeponJugador = document.getElementById('mokepon-jugador')
-  //se selecciona una opcion
-  for (let mokepon of mokepones) {
-    let inputMokepon = document.getElementById(mokepon)
-    mokepon = mokepon.charAt(0).toUpperCase() + mokepon.slice(1) //capitalizando
-    if (inputMokepon.checked) {
-      spanMokeponJugador.innerHTML = mokepon
-    }
-  }
-  //no se selecciona una opción
-  let contador = 0
-  for (let mokepon of mokepones) {
-    let inputMokepon = document.getElementById(mokepon)
-    if (inputMokepon.checked) {
-      contador += 1
-    }
-  }
-  if (contador === 0) {
-    alert('Seleccione una opción')
-  } else {
-    //ocultando la seccion seleccionar-mokepon
-    let sectionSeleccionarMokepon = document.getElementById('seleccionar-mokepon')
-    sectionSeleccionarMokepon.style.display = 'none'
-    //mostrando la seccion seleccionar-ataque
-    let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
-    sectionSeleccionarAtaque.style.display = 'flex'
-    //mokepon enemigo
-    seleccionarMokeponEnemigo()
-  }
-}
-
-
-// SELECCIONANDO ATAQUES
+//ataqueAleatorioEnemigo()
 let ataques = ['FUEGO', 'AGUA', 'TIERRA']
 let ataqueJugador
 let ataqueEnemigo
 let vidasJugador = 3
 let vidasEnemigo = 3
+//combate()
+let pVidasJugador = document.getElementById('vidas-jugador')
+let pVidasEnemigo = document.getElementById('vidas-enemigo')
+//crearMensaje()
+let pResultado = document.getElementById('resultado')
+let divAtaqueJugador = document.getElementById('ataque-jugador')
+let divAtaqueEnemigo = document.getElementById('ataque-enemigo')
+
+
+// SELECCIONANDO ATAQUES
+
+function reiniciarJuego() {
+  location.reload()
+}
 
 
 // insertar mensaje fin del juego
 function crearMensajeFinal(resultadoFinal) {
-  //trayendo el elementoHTML con id="resultado" 
-  let pResultado = document.getElementById('resultado')
   //agregando el resultado final
-  pResultado.innerHTML = resultadoFinal //contenido del parrafo
- 
+  pResultado.innerHTML = resultadoFinal 
   //deshabilitando los botones
-  let botonFuego = document.getElementById('boton-fuego')
   botonFuego.disabled = true
-  botonAgua = document.getElementById('boton-agua')
   botonAgua.disabled = true
-  let botonTierra = document.getElementById('boton-tierra')
   botonTierra.disabled = true
- 
   //mostrando la seccion reiniciar
-  let sectionReiniciar = document.getElementById('reiniciar')
   sectionReiniciar.style.display = 'block'
 }
 
@@ -94,13 +63,6 @@ function revisarVidas() {
 
 // insertar nuevos mensajes
 function crearMensaje(resultado) {
-  //elemento HTML donde se insertara el resultado
-  let pResultado = document.getElementById('resultado')
-  //elemento HTML donde se insertara el ataque del jugador
-  let divAtaqueJugador = document.getElementById('ataque-jugador')
-  //elemento HTML donde se insertara el ataque del enemigo
-  let divAtaqueEnemigo = document.getElementById('ataque-enemigo')
-  
   //parrafo resultado
   pResultado.innerHTML = ` ${resultado}` //contenido del elemento
   //parrafo ataque jugador
@@ -116,9 +78,6 @@ function crearMensaje(resultado) {
 
 // resultado combate
 function combate(ataqueJugador, ataqueEnemigo) {
-  let pVidasJugador = document.getElementById('vidas-jugador')
-  let pVidasEnemigo = document.getElementById('vidas-enemigo')
- 
   if (ataqueJugador === ataqueEnemigo) {
     crearMensaje('Empate ⚔')
   }
@@ -173,35 +132,72 @@ function ataqueJugadorTierra() {
 } 
 
 
-// REINICIANDO EL JUEGO
 function reiniciarJuego() {
   location.reload()
 }
 
 
-// INICIO
+// SELECCIONANDO MOKEPONES
+
+// definiendo la aleatoriedad
+function aleatorio(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+
+// se llama justo después de seleccionarMokeponJugador
+function seleccionarMokeponEnemigo() {
+  let mokeponAleatorio = aleatorio(0, mokepones.length -1) //valor aleatorio entre mokepones
+  let mokepon = mokepones[mokeponAleatorio]
+  mokepon = mokepon.charAt(0).toUpperCase() + mokepon.slice(1) //capitalizando
+  spanMokeponEnemigo.innerHTML = mokepon
+}
+
+
+//muestra el mokepon seleccionado una vez se de click al boton
+function seleccionarMokeponJugador() {
+  //se selecciona una opcion
+  for (let mokepon of mokepones) {
+    inputMokepon = document.getElementById(mokepon)
+    mokepon = mokepon.charAt(0).toUpperCase() + mokepon.slice(1) //capitalizando
+    if (inputMokepon.checked) {
+      spanMokeponJugador.innerHTML = mokepon
+    }
+  }
+  //no se selecciona una opción
+  let contador = 0
+  for (let mokepon of mokepones) {
+    inputMokepon = document.getElementById(mokepon)
+    if (inputMokepon.checked) {
+      contador += 1
+    }
+  }
+  if (contador === 0) {
+    alert('Seleccione una opción')
+  } else {
+    //ocultando la seccion seleccionar-mokepon
+    sectionSeleccionarMokepon.style.display = 'none'
+    //mostrando la seccion seleccionar-ataque
+    sectionSeleccionarAtaque.style.display = 'flex'
+    //mokepon enemigo
+    seleccionarMokeponEnemigo()
+  }
+}
+
 
 // función de arranque del programa
 function iniciarJuego() {
   //ocultando la seccion seleccionar-ataque
-  let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
   sectionSeleccionarAtaque.style.display = 'none'
   //ocultando la seccion reiniciar
-  let sectionReiniciar = document.getElementById('reiniciar')
   sectionReiniciar.style.display = 'none'
- 
   //seleccionar mokepon
-  let botonMokeponJugador = document.getElementById('boton-mokepon') //seleccionando boton
   botonMokeponJugador.addEventListener('click', seleccionarMokeponJugador) //escuchado eventos
   //seleccionar ataque
-  let botonFuego = document.getElementById('boton-fuego')
   botonFuego.addEventListener('click', ataqueJugadorFuego)
-  let botonAgua = document.getElementById('boton-agua')
   botonAgua.addEventListener('click', ataqueJugadorAgua)
-  let botonTierra = document.getElementById('boton-tierra')
   botonTierra.addEventListener('click', ataqueJugadorTierra)
   //boton de reinicio
-  let botonReiniciar = document.getElementById('boton-reiniciar')
   botonReiniciar.addEventListener('click', reiniciarJuego)
 }
 
