@@ -1,19 +1,19 @@
 /* DECLARACIONES */
 //iniciarJuego()
-let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
-let sectionReiniciar = document.getElementById('reiniciar')
-let botonMokeponJugador = document.getElementById('boton-mokepon') 
-let botonFuego = document.getElementById('boton-fuego')
-let botonAgua = document.getElementById('boton-agua')
-let botonTierra = document.getElementById('boton-tierra')
-let botonReiniciar = document.getElementById('boton-reiniciar')
+const sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
+const sectionReiniciar = document.getElementById('reiniciar')
+const botonMokeponJugador = document.getElementById('boton-mokepon') 
+const botonFuego = document.getElementById('boton-fuego')
+const botonAgua = document.getElementById('boton-agua')
+const botonTierra = document.getElementById('boton-tierra')
+const botonReiniciar = document.getElementById('boton-reiniciar')
 //seleccionarMokeponJugador()
-let mokepones = ['hipodoge', 'capipepo', 'ratigueya', 'langostelvis', 'tucapalma', 'pydos']
-let spanMokeponJugador = document.getElementById('mokepon-jugador')
+let mokepones = []
+const spanMokeponJugador = document.getElementById('mokepon-jugador')
 let inputMokepon
-let sectionSeleccionarMokepon = document.getElementById('seleccionar-mokepon')
+const sectionSeleccionarMokepon = document.getElementById('seleccionar-mokepon')
 //seleccionarMokeponEnemigo()
-let spanMokeponEnemigo = document.getElementById('mokepon-enemigo') 
+const spanMokeponEnemigo = document.getElementById('mokepon-enemigo') 
 
 //ataqueAleatorioEnemigo()
 let ataques = ['FUEGO', 'AGUA', 'TIERRA']
@@ -22,12 +22,56 @@ let ataqueEnemigo
 let vidasJugador = 3
 let vidasEnemigo = 3
 //combate()
-let pVidasJugador = document.getElementById('vidas-jugador')
-let pVidasEnemigo = document.getElementById('vidas-enemigo')
+const pVidasJugador = document.getElementById('vidas-jugador')
+const pVidasEnemigo = document.getElementById('vidas-enemigo')
 //crearMensaje()
-let pResultado = document.getElementById('resultado')
-let divAtaqueJugador = document.getElementById('ataque-jugador')
-let divAtaqueEnemigo = document.getElementById('ataque-enemigo')
+const pResultado = document.getElementById('resultado')
+const divAtaqueJugador = document.getElementById('ataque-jugador')
+const divAtaqueEnemigo = document.getElementById('ataque-enemigo')
+//inyectando mokepones al HTML
+let opcionDeMoquepones
+const divContenedorTarjetas = document.getElementById('contenedor-tarjetas')
+
+class Mokepon {
+  constructor(nombre, foto, vida) {
+    this.nombre = nombre
+    this.foto = foto
+    this.vida = vida
+    this.ataques = []
+  }
+}
+
+//instanciando objetos
+let hipodoge = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5)
+let capipepo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5)
+let ratigueya = new Mokepon('Ratigueya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5)
+//agregando ataques
+hipodoge.ataques.push(
+  { nombre: '🌊', id: 'boton-agua'},
+  { nombre: '🌊', id: 'boton-agua'},
+  { nombre: '🌊', id: 'boton-agua'},
+  { nombre: '🔥', id: 'boton-fuego'},
+  { nombre: '🌱', id: 'boton-tierra'},
+)
+
+capipepo.ataques.push(
+  { nombre: '🌱', id: 'boton-tierra'},
+  { nombre: '🌱', id: 'boton-tierra'},
+  { nombre: '🌱', id: 'boton-tierra'},
+  { nombre: '🌊', id: 'boton-agua'},
+  { nombre: '🔥', id: 'boton-fuego'},
+)
+
+hipodoge.ataques.push(
+  { nombre: '🔥', id: 'boton-fuego'},
+  { nombre: '🔥', id: 'boton-fuego'},
+  { nombre: '🔥', id: 'boton-fuego'},
+  { nombre: '🌊', id: 'boton-agua'},
+  { nombre: '🌱', id: 'boton-tierra'},
+)
+
+mokepones.push(hipodoge, capipepo, ratigueya)
+
 
 
 // SELECCIONANDO ATAQUES
@@ -132,11 +176,6 @@ function ataqueJugadorTierra() {
 } 
 
 
-function reiniciarJuego() {
-  location.reload()
-}
-
-
 // SELECCIONANDO MOKEPONES
 
 // definiendo la aleatoriedad
@@ -149,8 +188,7 @@ function aleatorio(min, max) {
 function seleccionarMokeponEnemigo() {
   let mokeponAleatorio = aleatorio(0, mokepones.length -1) //valor aleatorio entre mokepones
   let mokepon = mokepones[mokeponAleatorio]
-  mokepon = mokepon.charAt(0).toUpperCase() + mokepon.slice(1) //capitalizando
-  spanMokeponEnemigo.innerHTML = mokepon
+  spanMokeponEnemigo.innerHTML = mokepon.nombre
 }
 
 
@@ -158,16 +196,15 @@ function seleccionarMokeponEnemigo() {
 function seleccionarMokeponJugador() {
   //se selecciona una opcion
   for (let mokepon of mokepones) {
-    inputMokepon = document.getElementById(mokepon)
-    mokepon = mokepon.charAt(0).toUpperCase() + mokepon.slice(1) //capitalizando
+    inputMokepon = document.getElementById(mokepon.nombre)
     if (inputMokepon.checked) {
-      spanMokeponJugador.innerHTML = mokepon
+      spanMokeponJugador.innerHTML = mokepon.nombre
     }
   }
   //no se selecciona una opción
   let contador = 0
   for (let mokepon of mokepones) {
-    inputMokepon = document.getElementById(mokepon)
+    inputMokepon = document.getElementById(mokepon.nombre)
     if (inputMokepon.checked) {
       contador += 1
     }
@@ -189,6 +226,19 @@ function seleccionarMokeponJugador() {
 function iniciarJuego() {
   //ocultando la seccion seleccionar-ataque
   sectionSeleccionarAtaque.style.display = 'none'
+  
+  //inyectando los mokepones al class="tarjetas" del HTML
+  mokepones.forEach((mokepon) => {
+    opcionDeMoquepones = `
+      <input type="radio" name="mokepon" id="${mokepon.nombre}" />
+      <label for="${mokepon.nombre}" class="tarjeta-mokepon">
+        <p>${mokepon.nombre}</p>
+        <img src="${mokepon.foto}" alt="${mokepon.nombre}">
+      </label>
+    `
+    divContenedorTarjetas.innerHTML += opcionDeMoquepones //+= para concatenar mokepones 
+  })
+  
   //ocultando la seccion reiniciar
   sectionReiniciar.style.display = 'none'
   //seleccionar mokepon
