@@ -154,9 +154,21 @@ body {
 /* vidas jugadores */
 .ataques {
   display: grid;
-  grid-template-columns: 100px 100px;
+  grid-template-columns: 200px 200px;
   text-align: center;
 }
+
+#mokepon-jugador, #mokepon-enemigo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#mokepon-jugador img, #mokepon-enemigo img {
+  width: 50px;
+  height: 50px;
+}
+
 
 #ataque-jugador {
   background-color: plum;

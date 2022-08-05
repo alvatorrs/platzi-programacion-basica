@@ -9,11 +9,13 @@ const botonTierra = document.getElementById('boton-tierra')
 const botonReiniciar = document.getElementById('boton-reiniciar')
 //seleccionarMokeponJugador()
 let mokepones = []
-const pMokeponJugador = document.getElementById('mokepon-jugador')
+const divMokeponJugador = document.getElementById('mokepon-jugador')
 let inputMokepon
+let mokeponJugador
 const sectionSeleccionarMokepon = document.getElementById('seleccionar-mokepon')
 //seleccionarMokeponEnemigo()
-const pMokeponEnemigo = document.getElementById('mokepon-enemigo') 
+const divMokeponEnemigo = document.getElementById('mokepon-enemigo') 
+let mokeponEnemigo
 
 //ataqueAleatorioEnemigo()
 let ataques = ['FUEGO', 'AGUA', 'TIERRA']
@@ -188,7 +190,11 @@ function aleatorio(min, max) {
 function seleccionarMokeponEnemigo() {
   const mokeponAleatorio = aleatorio(0, mokepones.length-1) //valor aleatorio entre mokepones
   const mokepon = mokepones[mokeponAleatorio]
-  pMokeponEnemigo.innerHTML = mokepon.nombre
+  mokeponEnemigo = `
+    <p>${mokepon.nombre}</p>
+    <img src="${mokepon.foto}" alt="${mokepon.nombre}">
+  `
+  divMokeponEnemigo.innerHTML = mokeponEnemigo 
 }
 
 
@@ -198,7 +204,11 @@ function seleccionarMokeponJugador() {
   for (let mokepon of mokepones) {
     inputMokepon = document.getElementById(mokepon.nombre)
     if (inputMokepon.checked) {
-      pMokeponJugador.innerHTML = mokepon.nombre
+      mokeponJugador = `
+        <p>${mokepon.nombre}</p>
+        <img src="${mokepon.foto}" alt="${mokepon.nombre}">
+      `
+      divMokeponJugador.innerHTML = mokeponJugador
     }
   }
   //no se selecciona una opción
