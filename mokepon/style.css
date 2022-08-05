@@ -171,11 +171,12 @@ body {
   margin-bottom: 0;
 }
 
-/*.datos-jugador, .datos-enemigo {*/
+.datos-jugador, .datos-enemigo {
   /*display: flex;*/
   /*flex-direction: column;*/
   /*align-items: center;*/
-/*}*/
+  font-size: 18px;
+}
 
 /* Responsive Design */
 @media (max-width: 360px) {
