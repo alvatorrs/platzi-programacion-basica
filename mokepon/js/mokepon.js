@@ -56,6 +56,9 @@ class Mokepon {
 let hipodoge = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5)
 let capipepo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5)
 let ratigueya = new Mokepon('Ratigueya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5)
+let langostelvis = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.webp', 5)
+let tucapalma = new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.webp', 5)
+let pydos = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.webp', 5)
 //agregando ataques
 hipodoge.ataques.push(
   { nombre: '🌊', id: 'boton-agua'},
@@ -81,7 +84,34 @@ ratigueya.ataques.push(
   { nombre: '🌱', id: 'boton-tierra'},
 )
 
-mokepones.push(hipodoge, capipepo, ratigueya)
+langostelvis.ataques.push(
+  { nombre: '🔥', id: 'boton-fuego'},
+  { nombre: '🔥', id: 'boton-fuego'},
+  { nombre: '🔥', id: 'boton-fuego'},
+  { nombre: '🌊', id: 'boton-agua'},
+  { nombre: '🌊', id: 'boton-agua'},
+  { nombre: '🌱', id: 'boton-tierra'},
+)
+
+tucapalma.ataques.push(
+  { nombre: '🔥', id: 'boton-fuego'},
+  { nombre: '🌊', id: 'boton-agua'},
+  { nombre: '🌊', id: 'boton-agua'},
+  { nombre: '🌱', id: 'boton-tierra'},
+  { nombre: '🌱', id: 'boton-tierra'},
+  { nombre: '🌱', id: 'boton-tierra'},
+)
+
+pydos.ataques.push(
+  { nombre: '🔥', id: 'boton-fuego'},
+  { nombre: '🔥', id: 'boton-fuego'},
+  { nombre: '🌊', id: 'boton-agua'},
+  { nombre: '🌊', id: 'boton-agua'},
+  { nombre: '🌱', id: 'boton-tierra'},
+  { nombre: '🌱', id: 'boton-tierra'},
+)
+
+mokepones.push(hipodoge, capipepo, ratigueya, langostelvis, tucapalma, pydos)
 
 
 
@@ -94,6 +124,11 @@ function reiniciarJuego() {
 
 // insertar mensaje fin del juego
 function crearMensajeFinal(resultadoFinal) {
+  //deshabilitando los botones sobrantes 
+  botones.forEach((boton) => {
+    boton.style.background = '#112f58'
+    boton.disabled = true
+  })
   //agregando el resultado final
   pResultado.innerHTML = resultadoFinal 
   //mostrando la seccion reiniciar
@@ -185,16 +220,14 @@ function ataqueAleatorioEnemigo() {
   let nombreAtaqueEnemigo = ataquesMokeponEnemigo[ataqueAleatorio].nombre
   if (nombreAtaqueEnemigo === '🔥') {
     ataqueEnemigo.push('FUEGO')
-    console.log(ataqueEnemigo)
   } 
   else if (nombreAtaqueEnemigo === '🌊') {
     ataqueEnemigo.push('AGUA')
-    console.log(ataqueEnemigo)
   } 
   else if (nombreAtaqueEnemigo === '🌱') {
     ataqueEnemigo.push('TIERRA')
-    console.log(ataqueEnemigo)
   }
+  console.log(ataqueEnemigo)
  
   //inicializando el combate
   iniciaCombate()
@@ -207,16 +240,14 @@ function secuenciaAtaqueJugador() {
     boton.addEventListener('click', (evento) => {
       if (evento.target.textContent === '🔥') {
         ataqueJugador.push('FUEGO') 
-        console.log(ataqueJugador)
       } 
       else if (evento.target.textContent === '🌊') {
         ataqueJugador.push('AGUA') 
-        console.log(ataqueJugador)
       } 
       else if (evento.target.textContent === '🌱') {
         ataqueJugador.push('TIERRA') 
-        console.log(ataqueJugador)
       }
+      console.log(ataqueJugador)
       boton.style.background = '#112f58'
       boton.disabled = true
       ataqueAleatorioEnemigo()
