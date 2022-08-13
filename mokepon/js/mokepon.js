@@ -25,6 +25,13 @@ const divMokeponEnemigo = document.getElementById('mokepon-enemigo')
 let mokeponEnemigo
 let ataquesMokeponEnemigo = []
 
+//canvas
+const sectionVerMapa = document.getElementById('ver-mapa')
+const canvasMapa = document.getElementById('mapa')
+let lienzo = canvasMapa.getContext('2d') //contexto 2D del canvas
+let mokeponJugadorCanvas
+let mokeponEnemigoCanvas
+
 //ataqueAleatorioEnemigo()
 let ataqueEnemigo = []
 let vidasJugador
@@ -49,6 +56,12 @@ class Mokepon {
     this.foto = foto
     this.vida = vida
     this.ataques = []
+    this.x = 20
+    this.y = 30
+    this.ancho = 80
+    this.alto = 80
+    this.imagenMokepon = new Image()
+    this.imagenMokepon.src = foto
   }
 }
 
@@ -269,6 +282,44 @@ function mostrarAtaques(ataquesMokeponJugador) {
 }
 
 
+// CANVAS
+
+
+// cargando el mokepon en el canvas
+function pintarPeronaje() {
+  lienzo.clearRect(0, 0, canvasMapa.clientWidth, canvasMapa.clientHeight) //limpia el canvas
+  lienzo.drawImage(mokeponJugadorCanvas.imagenMokepon, mokeponJugadorCanvas.x, mokeponJugadorCanvas.y, mokeponJugadorCanvas.ancho, mokeponJugadorCanvas.alto)
+}
+
+
+// moviendo el mokepon a la derecha
+function moverMokeponDerecha() {
+  mokeponJugadorCanvas.x = mokeponJugadorCanvas.x + 5
+  pintarPeronaje()
+}
+
+
+// moviendo el mokepon a la derecha
+function moverMokeponIzquierda() {
+  mokeponJugadorCanvas.x = mokeponJugadorCanvas.x - 5
+  pintarPeronaje()
+}
+
+
+// moviendo el mokepon hacia arriba
+function moverMokeponArriba() {
+  mokeponJugadorCanvas.y = mokeponJugadorCanvas.y - 5
+  pintarPeronaje()
+}
+
+
+// moviendo el mokepon hacia abajo
+function moverMokeponAbajo() {
+  mokeponJugadorCanvas.y = mokeponJugadorCanvas.y + 5
+  pintarPeronaje()
+}
+
+
 // SELECCIONANDO MOKEPONES
 
 // definiendo la aleatoriedad
@@ -281,6 +332,8 @@ function aleatorio(min, max) {
 function seleccionarMokeponEnemigo() {
   const mokeponAleatorio = aleatorio(0, mokepones.length-1) //valor aleatorio entre mokepones
   const mokepon = mokepones[mokeponAleatorio]
+  //mokepon canvas
+  mokeponEnemigoCanvas = mokepon
   //definiendo e insertando vidas enemigo
   vidasEnemigo = mokepon.vida
   pVidasEnemigo.innerHTML = vidasEnemigo
@@ -315,6 +368,8 @@ function seleccionarMokeponJugador() {
   for (let mokepon of mokepones) {
     inputMokepon = document.getElementById(mokepon.nombre)
     if (inputMokepon.checked) {
+      //mokepon canvas
+      mokeponJugadorCanvas = mokepon
       //definiendo e insertando vidas jugador
       vidasJugador = mokepon.vida
       pVidasJugador.innerHTML = vidasJugador
@@ -340,8 +395,14 @@ function seleccionarMokeponJugador() {
   } else {
     //ocultando la seccion seleccionar-mokepon
     sectionSeleccionarMokepon.style.display = 'none'
+    //mostrar la seccion del canvas
+    sectionVerMapa.style.display = 'flex'
+    //mostrando el mokepon en el canvas
+    lienzo.drawImage(mokeponJugadorCanvas.imagenMokepon, mokeponJugadorCanvas.x, mokeponJugadorCanvas.y, mokeponJugadorCanvas.ancho, mokeponJugadorCanvas.alto)
+    
     //mostrando la seccion seleccionar-ataque
-    sectionSeleccionarAtaque.style.display = 'flex'
+    //sectionSeleccionarAtaque.style.display = 'flex'
+    
     //extraer ataques jugador
     extraerAtaques(nombreMokeponJugador)
     //mokepon enemigo
@@ -352,6 +413,8 @@ function seleccionarMokeponJugador() {
 
 // función de arranque del programa
 function iniciarJuego() {
+  //ocultando la seccion del canvas
+  sectionVerMapa.style.display = 'none'
   //ocultando la seccion seleccionar-ataque
   sectionSeleccionarAtaque.style.display = 'none'
   
