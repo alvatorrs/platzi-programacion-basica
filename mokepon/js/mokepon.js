@@ -31,6 +31,7 @@ const canvasMapa = document.getElementById('mapa')
 let lienzo = canvasMapa.getContext('2d') //contexto 2D del canvas
 let mokeponJugadorCanvas
 let mokeponEnemigoCanvas
+let intervalo
 
 //ataqueAleatorioEnemigo()
 let ataqueEnemigo = []
@@ -62,6 +63,8 @@ class Mokepon {
     this.alto = 80
     this.imagenMokepon = new Image()
     this.imagenMokepon.src = foto
+    this.velocidadX = 0
+    this.velocidadY = 0
   }
 }
 
@@ -287,6 +290,8 @@ function mostrarAtaques(ataquesMokeponJugador) {
 
 // cargando el mokepon en el canvas
 function pintarPeronaje() {
+  mokeponJugadorCanvas.x = mokeponJugadorCanvas.x + mokeponJugadorCanvas.velocidadX
+  mokeponJugadorCanvas.y = mokeponJugadorCanvas.y + mokeponJugadorCanvas.velocidadY
   lienzo.clearRect(0, 0, canvasMapa.clientWidth, canvasMapa.clientHeight) //limpia el canvas
   lienzo.drawImage(mokeponJugadorCanvas.imagenMokepon, mokeponJugadorCanvas.x, mokeponJugadorCanvas.y, mokeponJugadorCanvas.ancho, mokeponJugadorCanvas.alto)
 }
@@ -294,29 +299,60 @@ function pintarPeronaje() {
 
 // moviendo el mokepon a la derecha
 function moverMokeponDerecha() {
-  mokeponJugadorCanvas.x = mokeponJugadorCanvas.x + 5
+  mokeponJugadorCanvas.velocidadX = 5
   pintarPeronaje()
 }
 
 
 // moviendo el mokepon a la derecha
 function moverMokeponIzquierda() {
-  mokeponJugadorCanvas.x = mokeponJugadorCanvas.x - 5
+  mokeponJugadorCanvas.velocidadX = -5
   pintarPeronaje()
 }
 
 
 // moviendo el mokepon hacia arriba
 function moverMokeponArriba() {
-  mokeponJugadorCanvas.y = mokeponJugadorCanvas.y - 5
+  mokeponJugadorCanvas.velocidadY = -5
   pintarPeronaje()
 }
 
 
 // moviendo el mokepon hacia abajo
 function moverMokeponAbajo() {
-  mokeponJugadorCanvas.y = mokeponJugadorCanvas.y + 5
+  mokeponJugadorCanvas.velocidadY = 5
   pintarPeronaje()
+}
+
+
+function detenerMokepon() {
+  mokeponJugadorCanvas.velocidadX = 0
+  mokeponJugadorCanvas.velocidadY = 0
+}
+
+
+//moviendo al mokepon con el teclado
+function moverMokepon(evento) {
+  switch (evento.key) {
+    case 'ArrowRight': moverMokeponDerecha()
+      break
+    case 'ArrowLeft': moverMokeponIzquierda()
+      break
+    case 'ArrowUp': moverMokeponArriba()
+      break
+    case 'ArrowDown': moverMokeponAbajo()
+      break
+  }
+}
+
+
+//iniciando el mapa del canvas
+function iniciarMapa() {
+  //llamando a la funcion pintarPeronaje() cada 50ms
+  intervalo = setInterval(pintarPeronaje, 50) //funcion a ejecutar, tiempo en ms
+  //eventos de teclado
+  window.addEventListener('keydown', moverMokepon)
+  window.addEventListener('keyup', detenerMokepon)
 }
 
 
@@ -397,8 +433,8 @@ function seleccionarMokeponJugador() {
     sectionSeleccionarMokepon.style.display = 'none'
     //mostrar la seccion del canvas
     sectionVerMapa.style.display = 'flex'
-    //mostrando el mokepon en el canvas
-    lienzo.drawImage(mokeponJugadorCanvas.imagenMokepon, mokeponJugadorCanvas.x, mokeponJugadorCanvas.y, mokeponJugadorCanvas.ancho, mokeponJugadorCanvas.alto)
+    //iniciando el mapa del canvas
+    iniciarMapa()
     
     //mostrando la seccion seleccionar-ataque
     //sectionSeleccionarAtaque.style.display = 'flex'
