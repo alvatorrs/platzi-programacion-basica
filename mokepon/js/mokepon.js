@@ -32,6 +32,8 @@ let lienzo = canvasMapa.getContext('2d') //contexto 2D del canvas
 let mokeponJugadorCanvas
 let mokeponEnemigoCanvas
 let intervalo
+let mapaBackground = new Image()
+mapaBackground.src = './assets/mokemap.webp'
 
 //ataqueAleatorioEnemigo()
 let ataqueEnemigo = []
@@ -52,29 +54,57 @@ let opcionDeMoquepones
 const divContenedorTarjetas = document.getElementById('contenedor-tarjetas')
 
 class Mokepon {
-  constructor(nombre, foto, vida) {
+  constructor(nombre, foto, vida, imagenMokepon, x=10, y=10) {
     this.nombre = nombre
     this.foto = foto
     this.vida = vida
     this.ataques = []
-    this.x = 20
-    this.y = 30
+    this.x = x
+    this.y = y
     this.ancho = 80
     this.alto = 80
     this.imagenMokepon = new Image()
-    this.imagenMokepon.src = foto
+    this.imagenMokepon.src = imagenMokepon
     this.velocidadX = 0
     this.velocidadY = 0
+  }
+  //metodos 
+  pintarMokepon() {
+    lienzo.drawImage(
+      this.imagenMokepon,
+      this.x,
+      this.y,
+      this.ancho,
+      this.alto
+    )
   }
 }
 
 //instanciando objetos
-let hipodoge = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 5)
-let capipepo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 5)
-let ratigueya = new Mokepon('Ratigueya', './assets/mokepons_mokepon_ratigueya_attack.webp', 5)
-let langostelvis = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.webp', 5)
-let tucapalma = new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.webp', 5)
-let pydos = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.webp', 5)
+let hipodoge = new Mokepon('Hipodoge', './assets/mokepons_mokepon_hipodoge_attack.webp', 
+  5,
+  './assets/hipodoge.webp'
+)
+let capipepo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attack.webp', 
+  5,
+  './assets/capipepo.png'
+)
+let ratigueya = new Mokepon('Ratigueya', './assets/mokepons_mokepon_ratigueya_attack.webp', 
+  5,
+  './assets/ratigueya.png'
+)
+let langostelvis = new Mokepon('Langostelvis', './assets/mokepons_mokepon_langostelvis_attack.webp',
+  5,
+  './assets/mokepons_mokepon_langostelvis_attack.webp'
+)
+let tucapalma = new Mokepon('Tucapalma', './assets/mokepons_mokepon_tucapalma_attack.webp', 
+  5,
+  './assets/mokepons_mokepon_tucapalma_attack.webp'
+)
+let pydos = new Mokepon('Pydos', './assets/mokepons_mokepon_pydos_attack.webp', 
+  5,
+  './assets/mokepons_mokepon_pydos_attack.webp'
+)
 //agregando ataques
 hipodoge.ataques.push(
   { nombre: '🌊', id: 'boton-agua'},
@@ -289,39 +319,44 @@ function mostrarAtaques(ataquesMokeponJugador) {
 
 
 // cargando el mokepon en el canvas
-function pintarPeronaje() {
+function pintarCanvas() {
   mokeponJugadorCanvas.x = mokeponJugadorCanvas.x + mokeponJugadorCanvas.velocidadX
   mokeponJugadorCanvas.y = mokeponJugadorCanvas.y + mokeponJugadorCanvas.velocidadY
   lienzo.clearRect(0, 0, canvasMapa.clientWidth, canvasMapa.clientHeight) //limpia el canvas
-  lienzo.drawImage(mokeponJugadorCanvas.imagenMokepon, mokeponJugadorCanvas.x, mokeponJugadorCanvas.y, mokeponJugadorCanvas.ancho, mokeponJugadorCanvas.alto)
+  //pintando background
+  lienzo.drawImage(mapaBackground, 0, 0, canvasMapa.width, canvasMapa.height)
+  //pintando mokepon jugador
+  mokeponJugadorCanvas.pintarMokepon()
+  //pintando mokepon enemigo
+  mokeponEnemigoCanvas.pintarMokepon()
 }
 
 
 // moviendo el mokepon a la derecha
-function moverMokeponDerecha() {
+function moverMokeponJugadorDerecha() {
   mokeponJugadorCanvas.velocidadX = 5
-  pintarPeronaje()
+  pintarCanvas()
 }
 
 
 // moviendo el mokepon a la derecha
-function moverMokeponIzquierda() {
+function moverMokeponJugadorIzquierda() {
   mokeponJugadorCanvas.velocidadX = -5
-  pintarPeronaje()
+  pintarCanvas()
 }
 
 
 // moviendo el mokepon hacia arriba
-function moverMokeponArriba() {
+function moverMokeponJugadorArriba() {
   mokeponJugadorCanvas.velocidadY = -5
-  pintarPeronaje()
+  pintarCanvas()
 }
 
 
 // moviendo el mokepon hacia abajo
-function moverMokeponAbajo() {
+function moverMokeponJugadorAbajo() {
   mokeponJugadorCanvas.velocidadY = 5
-  pintarPeronaje()
+  pintarCanvas()
 }
 
 
@@ -332,15 +367,15 @@ function detenerMokepon() {
 
 
 //moviendo al mokepon con el teclado
-function moverMokepon(evento) {
+function moverMokeponJugador(evento) {
   switch (evento.key) {
-    case 'ArrowRight': moverMokeponDerecha()
+    case 'ArrowRight': moverMokeponJugadorDerecha()
       break
-    case 'ArrowLeft': moverMokeponIzquierda()
+    case 'ArrowLeft': moverMokeponJugadorIzquierda()
       break
-    case 'ArrowUp': moverMokeponArriba()
+    case 'ArrowUp': moverMokeponJugadorArriba()
       break
-    case 'ArrowDown': moverMokeponAbajo()
+    case 'ArrowDown': moverMokeponJugadorAbajo()
       break
   }
 }
@@ -348,10 +383,13 @@ function moverMokepon(evento) {
 
 //iniciando el mapa del canvas
 function iniciarMapa() {
-  //llamando a la funcion pintarPeronaje() cada 50ms
-  intervalo = setInterval(pintarPeronaje, 50) //funcion a ejecutar, tiempo en ms
+  //dimensiones del canvas
+  canvasMapa.width = 600
+  canvasMapa.height = 450
+  //llamando a la funcion pintarCanvas() cada 50ms
+  intervalo = setInterval(pintarCanvas, 50) //funcion a ejecutar, tiempo en ms
   //eventos de teclado
-  window.addEventListener('keydown', moverMokepon)
+  window.addEventListener('keydown', moverMokeponJugador)
   window.addEventListener('keyup', detenerMokepon)
 }
 
@@ -369,7 +407,9 @@ function seleccionarMokeponEnemigo() {
   const mokeponAleatorio = aleatorio(0, mokepones.length-1) //valor aleatorio entre mokepones
   const mokepon = mokepones[mokeponAleatorio]
   //mokepon canvas
-  mokeponEnemigoCanvas = mokepon
+  mokeponEnemigoCanvas = Object.assign(Object.create(Object.getPrototypeOf(mokepon)), mokepon) //copia de instancia
+  mokeponEnemigoCanvas.x = aleatorio(10, 400)
+  mokeponEnemigoCanvas.y = aleatorio(10, 400)
   //definiendo e insertando vidas enemigo
   vidasEnemigo = mokepon.vida
   pVidasEnemigo.innerHTML = vidasEnemigo
