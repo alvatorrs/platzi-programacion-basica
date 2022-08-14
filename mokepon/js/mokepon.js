@@ -318,6 +318,41 @@ function mostrarAtaques(ataquesMokeponJugador) {
 // CANVAS
 
 
+function detenerMokepon() {
+  mokeponJugadorCanvas.velocidadX = 0
+  mokeponJugadorCanvas.velocidadY = 0
+}
+
+
+//colision de mokepones
+function revisarColision(mokeponEnemigoCanvas) {
+  //dimensiones mokepon enemigo
+  const arribaEnemigo = mokeponEnemigoCanvas.y
+  const abajoEnemigo = mokeponEnemigoCanvas.y + mokeponEnemigoCanvas.alto
+  const derechaEnemigo = mokeponEnemigoCanvas.x + mokeponEnemigoCanvas.ancho
+  const izquierdaEnemigo = mokeponEnemigoCanvas.x
+  //dimensiones mokepon jugador
+  const arribaJugador = mokeponJugadorCanvas.y
+  const abajoJugador = mokeponJugadorCanvas.y + mokeponJugadorCanvas.alto
+  const derechaJugador = mokeponJugadorCanvas.x + mokeponJugadorCanvas.ancho
+  const izquierdaJugador = mokeponJugadorCanvas.x
+  
+  if (
+    abajoJugador < arribaEnemigo || arribaJugador > abajoEnemigo ||
+    derechaJugador < izquierdaEnemigo || izquierdaJugador > derechaEnemigo
+  ) {
+    console.log('No hay colision')
+  } else {
+    //alert(`Hay una colisión con ${mokeponEnemigoCanvas.nombre}`)
+    detenerMokepon()
+    //mostrando la seccion seleccionar-ataque
+    sectionSeleccionarAtaque.style.display = 'flex'
+    //ocultar la seccion del canvas
+    sectionVerMapa.style.display = 'none'
+  }
+}
+
+
 // cargando el mokepon en el canvas
 function pintarCanvas() {
   mokeponJugadorCanvas.x = mokeponJugadorCanvas.x + mokeponJugadorCanvas.velocidadX
@@ -329,6 +364,10 @@ function pintarCanvas() {
   mokeponJugadorCanvas.pintarMokepon()
   //pintando mokepon enemigo
   mokeponEnemigoCanvas.pintarMokepon()
+  //revisando colision 
+  if (mokeponJugadorCanvas.velocidadX !== 0 || mokeponJugadorCanvas.velocidadY !== 0) {
+    revisarColision(mokeponEnemigoCanvas)
+  }
 }
 
 
@@ -357,12 +396,6 @@ function moverMokeponJugadorArriba() {
 function moverMokeponJugadorAbajo() {
   mokeponJugadorCanvas.velocidadY = 5
   pintarCanvas()
-}
-
-
-function detenerMokepon() {
-  mokeponJugadorCanvas.velocidadX = 0
-  mokeponJugadorCanvas.velocidadY = 0
 }
 
 
@@ -475,9 +508,6 @@ function seleccionarMokeponJugador() {
     sectionVerMapa.style.display = 'flex'
     //iniciando el mapa del canvas
     iniciarMapa()
-    
-    //mostrando la seccion seleccionar-ataque
-    //sectionSeleccionarAtaque.style.display = 'flex'
     
     //extraer ataques jugador
     extraerAtaques(nombreMokeponJugador)
