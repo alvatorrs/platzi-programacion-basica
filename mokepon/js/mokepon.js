@@ -34,6 +34,15 @@ let mokeponEnemigoCanvas
 let intervalo
 let mapaBackground = new Image()
 mapaBackground.src = './assets/mokemap.webp'
+//asignando dimensiones al canvas
+let anchoCanvas = window.innerWidth - 80
+let altoCanvas = anchoCanvas * (450/600) - 100
+canvasMapa.width = anchoCanvas
+canvasMapa.height = altoCanvas
+const anchoMaximoCanvas = 350
+if (anchoCanvas > anchoMaximoCanvas) {
+  anchoCanvas = anchoMaximoCanvas -80
+}
 
 //ataqueAleatorioEnemigo()
 let ataqueEnemigo = []
@@ -54,15 +63,15 @@ let opcionDeMoquepones
 const divContenedorTarjetas = document.getElementById('contenedor-tarjetas')
 
 class Mokepon {
-  constructor(nombre, foto, vida, imagenMokepon, x=10, y=10) {
+  constructor(nombre, foto, vida, imagenMokepon) {
     this.nombre = nombre
     this.foto = foto
     this.vida = vida
     this.ataques = []
-    this.x = x
-    this.y = y
     this.ancho = 80
     this.alto = 80
+    this.x = aleatorio(10, canvasMapa.width - this.ancho)
+    this.y = aleatorio(10, canvasMapa.height - this.alto)
     this.imagenMokepon = new Image()
     this.imagenMokepon.src = imagenMokepon
     this.velocidadX = 0
@@ -345,6 +354,8 @@ function revisarColision(mokeponEnemigoCanvas) {
   } else {
     //alert(`Hay una colisión con ${mokeponEnemigoCanvas.nombre}`)
     detenerMokepon()
+    //detener el intervalo que ejecuta a pintarCanvas()
+    clearInterval(intervalo)
     //mostrando la seccion seleccionar-ataque
     sectionSeleccionarAtaque.style.display = 'flex'
     //ocultar la seccion del canvas
@@ -416,9 +427,6 @@ function moverMokeponJugador(evento) {
 
 //iniciando el mapa del canvas
 function iniciarMapa() {
-  //dimensiones del canvas
-  canvasMapa.width = 600
-  canvasMapa.height = 450
   //llamando a la funcion pintarCanvas() cada 50ms
   intervalo = setInterval(pintarCanvas, 50) //funcion a ejecutar, tiempo en ms
   //eventos de teclado
@@ -441,8 +449,6 @@ function seleccionarMokeponEnemigo() {
   const mokepon = mokepones[mokeponAleatorio]
   //mokepon canvas
   mokeponEnemigoCanvas = Object.assign(Object.create(Object.getPrototypeOf(mokepon)), mokepon) //copia de instancia
-  mokeponEnemigoCanvas.x = aleatorio(10, 400)
-  mokeponEnemigoCanvas.y = aleatorio(10, 400)
   //definiendo e insertando vidas enemigo
   vidasEnemigo = mokepon.vida
   pVidasEnemigo.innerHTML = vidasEnemigo
