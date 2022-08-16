@@ -35,14 +35,14 @@ let intervalo
 let mapaBackground = new Image()
 mapaBackground.src = './assets/mokemap.webp'
 //asignando dimensiones al canvas
-let anchoCanvas = window.innerWidth - 80
-let altoCanvas = anchoCanvas * (450/600) - 100
+let anchoCanvas = 600
+let altoCanvas = 450
 canvasMapa.width = anchoCanvas
 canvasMapa.height = altoCanvas
-const anchoMaximoCanvas = 350
-if (anchoCanvas > anchoMaximoCanvas) {
-  anchoCanvas = anchoMaximoCanvas -80
-}
+/*const anchoMaximoCanvas = 350*/
+/*if (anchoCanvas > anchoMaximoCanvas) {*/
+  /*anchoCanvas = anchoMaximoCanvas -80*/
+/*}*/
 
 //ataqueAleatorioEnemigo()
 let ataqueEnemigo = []
@@ -448,7 +448,15 @@ function seleccionarMokeponEnemigo() {
   const mokeponAleatorio = aleatorio(0, mokepones.length-1) //valor aleatorio entre mokepones
   const mokepon = mokepones[mokeponAleatorio]
   //mokepon canvas
-  mokeponEnemigoCanvas = Object.assign(Object.create(Object.getPrototypeOf(mokepon)), mokepon) //copia de instancia
+  mokeponEnemigoCanvas = new Mokepon(mokepon.nombre, mokepon.foto, 5, mokepon.imagenMokepon.src)
+  mokeponEnemigoCanvas.ataques.push(
+    { nombre: mokepon.ataques[0].nombre, id: mokepon.ataques[0].id},
+    { nombre: mokepon.ataques[1].nombre, id: mokepon.ataques[1].id},
+    { nombre: mokepon.ataques[2].nombre, id: mokepon.ataques[2].id},
+    { nombre: mokepon.ataques[3].nombre, id: mokepon.ataques[3].id},
+    { nombre: mokepon.ataques[4].nombre, id: mokepon.ataques[4].id},
+  )
+ 
   //definiendo e insertando vidas enemigo
   vidasEnemigo = mokepon.vida
   pVidasEnemigo.innerHTML = vidasEnemigo

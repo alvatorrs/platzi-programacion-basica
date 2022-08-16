@@ -97,6 +97,27 @@ body {
   align-items: center;
 }
 
+#ver-mapa div {
+  width: 600;
+}
+
+#ver-mapa button {
+  width: 80px;
+  height: 40px;
+  margin-top: 8px;
+  border: 4px solid #32A046;
+  border-radius: 8px;
+  padding: 4px;
+  color: black;
+  font-family: sans-serif;
+  font-size: 16px;
+}
+
+#ver-mapa button:hover {
+  background-color: #32A046;
+  color: white;
+}
+
 /* seleccionar ataque */
 #seleccionar-ataque {
   background-color: slateblue;
@@ -176,7 +197,6 @@ body {
   margin-left: 4px;
 }
 
-
 #ataque-jugador {
   background-color: plum;
 }
@@ -204,6 +224,14 @@ body {
     max-width: 200px;
     flex-direction: column;
   }
+
+  /* boton canvas */
+  #ver-mapa div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   /* botones de ataque */
   .contenedor-botones-ataque {
     flex-direction: column;
