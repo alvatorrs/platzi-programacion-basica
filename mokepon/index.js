@@ -12,8 +12,7 @@ class Jugador {
   }
 }
 
-
-//respondiendo la peticion GET
+//endpoints
 
 //agregando jugador a jugadores y regresando su id
 app.get('/unirse', (req, res) => {
@@ -23,6 +22,8 @@ app.get('/unirse', (req, res) => {
   const jugador = new Jugador(id)
   //agregando el jugador a jugadores
   jugadores.push(jugador)
+  //agregando cabecera
+  res.setHeader('Access-Control-Allow-Origin', '*')
   res.send(id)
 })
 

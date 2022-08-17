@@ -556,8 +556,24 @@ function iniciarJuego() {
   botonMokeponJugador.addEventListener('click', seleccionarMokeponJugador) //escuchado eventos
   //boton de reinicio
   botonReiniciar.addEventListener('click', reiniciarJuego)
+  //consumiendo la API
+  unirseAlJuego()
 }
 
+
+//peticion asincrona al servidor 
+function unirseAlJuego() {
+  fetch('http://localhost:8080/unirse') //GET por defecto
+    .then(function (res) {
+      console.log(res) //imprimiendo objeto res
+      if (res.ok) {
+        res.text()
+          .then(function (respuesta) {
+            console.log(respuesta) //imprimiendo la respuesta del servidor
+          })
+      }
+    })
+}
 
 // Ejecución
 window.addEventListener('load', iniciarJuego) //agregando un escucha al navegador
