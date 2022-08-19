@@ -1,7 +1,14 @@
 //importando express
 const express = require('express')
+//importando cors
+const cors = require('cors')
+
 //almacenando en una variable la aplicacion
 const app = express()
+//le decimos a Express que use a cors
+app.use(cors())
+//soportando las peticiones POST con JSON como parte del body
+app.use(express.json())
 
 //lista de jugadores que se unen al servidor
 const jugadores = []
@@ -9,6 +16,16 @@ const jugadores = []
 class Jugador {
   constructor(id) {
     this.id = id
+  }
+ 
+  asignarMokepon(mokepon) {
+    this.mokepon = mokepon
+  }
+}
+
+class Mokepon {
+  constructor(nombre) {
+    this.nombre = nombre
   }
 }
 
@@ -25,6 +42,24 @@ app.get('/unirse', (req, res) => {
   //agregando cabecera
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.send(id)
+})
+
+app.post('/mokepon/:jugadorId', (req, res) => {
+  //extrayendo la variable de la solicitud
+  const jugadorId = req.params.jugadorId || ""
+  //extrayendo el body
+  const nombreMokepon = req.body.mokepon || ""
+  //creando objeto tipo Mokepon
+  const mokepon = new Mokepon(nombreMokepon)
+  //asignandole el mokepon al jugador
+  const jugadorIndex = jugadores.findIndex((jugador) => jugadorId === jugador.id)
+  if (jugadorIndex >= 0) {
+    jugadores[jugadorIndex].asignarMokepon(mokepon) 
+  }
+  console.log(jugadores)
+  console.log(jugadorId)
+  //termino la peticion
+  res.end()
 })
 
 //escuchando las peticiones del cliente en el puerto 8080

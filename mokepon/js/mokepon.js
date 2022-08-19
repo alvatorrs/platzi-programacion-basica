@@ -18,6 +18,8 @@ let botonFuego
 let botonAgua
 let botonTierra
 let botones = []
+//enviarMokeponJugador()
+let jugadorId = null
 //secuenciaAtaqueJugador()
 let ataqueJugador = []
 //seleccionarMokeponEnemigo()
@@ -484,6 +486,35 @@ function extraerAtaques(nombreMokeponJugador) {
   mostrarAtaques(ataquesMokeponJugador)
 }
 
+//enviando el mokepon al servidor
+function enviarMokeponJugador(mokeponJugadorCanvas) {
+  fetch(`http://localhost:8080/mokepon/${jugadorId}`, { 
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      mokepon: mokeponJugadorCanvas.nombre
+    })
+  })
+}
+
+
+//peticion asincrona al servidor 
+function unirseAlJuego() {
+  fetch('http://localhost:8080/unirse') //GET por defecto
+    .then(function (res) {
+      console.log(res) //imprimiendo objeto res
+      if (res.ok) {
+        res.text()
+          .then(function (respuesta) {
+            console.log(respuesta) //imprimiendo la respuesta del servidor
+            jugadorId = respuesta
+          })
+      }
+    })
+}
+
 
 //muestra el mokepon seleccionado una vez se de click al boton
 function seleccionarMokeponJugador() {
@@ -516,6 +547,8 @@ function seleccionarMokeponJugador() {
   if (contador === 0) {
     alert('Seleccione una opción')
   } else {
+    //enviando el mokepon al backend
+    enviarMokeponJugador(mokeponJugadorCanvas)
     //ocultando la seccion seleccionar-mokepon
     sectionSeleccionarMokepon.style.display = 'none'
     //mostrar la seccion del canvas
@@ -560,20 +593,6 @@ function iniciarJuego() {
   unirseAlJuego()
 }
 
-
-//peticion asincrona al servidor 
-function unirseAlJuego() {
-  fetch('http://localhost:8080/unirse') //GET por defecto
-    .then(function (res) {
-      console.log(res) //imprimiendo objeto res
-      if (res.ok) {
-        res.text()
-          .then(function (respuesta) {
-            console.log(respuesta) //imprimiendo la respuesta del servidor
-          })
-      }
-    })
-}
 
 // Ejecución
 window.addEventListener('load', iniciarJuego) //agregando un escucha al navegador
