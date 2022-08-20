@@ -21,6 +21,11 @@ class Jugador {
   asignarMokepon(mokepon) {
     this.mokepon = mokepon
   }
+ 
+  actualizarPosicion(x, y) {
+    this.x = x
+    this.y = y
+  }
 }
 
 class Mokepon {
@@ -44,6 +49,7 @@ app.get('/unirse', (req, res) => {
   res.send(id)
 })
 
+//recibiendo el nombre del mokepon del jugador y su id
 app.post('/mokepon/:jugadorId', (req, res) => {
   //extrayendo la variable de la solicitud
   const jugadorId = req.params.jugadorId || ""
@@ -60,6 +66,22 @@ app.post('/mokepon/:jugadorId', (req, res) => {
   console.log(jugadorId)
   //termino la peticion
   res.end()
+})
+
+//recibiendo cordenadas de jugadores
+app.post('/mokepon/:jugadorId/posicion', (req, res) => {
+  const jugadorId = req.params.jugadorId || ""
+  const x = req.body.x || 0
+  const y = req.body.y || 0
+  const jugadorIndex = jugadores.findIndex((jugador) => jugadorId === jugador.id)
+  if (jugadorIndex >= 0) {
+    jugadores[jugadorIndex].actualizarPosicion(x, y)
+  }
+  
+  //enemigos del jugador
+  const enemigos = jugadores.filter((jugador) => jugadorId !== jugador.id)
+  //devolviendo los enemigos
+  res.send({ enemigos }) //solo se pueden devolver JSON y no arrays
 })
 
 //escuchando las peticiones del cliente en el puerto 8080

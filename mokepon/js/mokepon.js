@@ -366,6 +366,26 @@ function revisarColision(mokeponEnemigoCanvas) {
 }
 
 
+//enviar posicion del jugador al servidor
+function enviarPosicion(x, y) {
+  fetch(`http://localhost:8080/mokepon/${jugadorId}/posicion`, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ x, y})
+  })
+    .then(function (res) {
+      if (res.ok) {
+        res.json()
+          .then(function ({ enemigos }) {
+            console.log(enemigos)
+          })
+      }
+    })
+}
+
+
 // cargando el mokepon en el canvas
 function pintarCanvas() {
   mokeponJugadorCanvas.x = mokeponJugadorCanvas.x + mokeponJugadorCanvas.velocidadX
@@ -375,6 +395,8 @@ function pintarCanvas() {
   lienzo.drawImage(mapaBackground, 0, 0, canvasMapa.width, canvasMapa.height)
   //pintando mokepon jugador
   mokeponJugadorCanvas.pintarMokepon()
+  //enviando posicion jugador al servidor
+  enviarPosicion(mokeponJugadorCanvas.x, mokeponJugadorCanvas.y)
   //pintando mokepon enemigo
   mokeponEnemigoCanvas.pintarMokepon()
   //revisando colision 
