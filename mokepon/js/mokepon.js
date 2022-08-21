@@ -20,6 +20,7 @@ let botonTierra
 let botones = []
 //enviarMokeponJugador()
 let jugadorId = null
+let enemigoId = null
 //secuenciaAtaqueJugador()
 let ataqueJugador = []
 //seleccionarMokeponEnemigo()
@@ -46,14 +47,14 @@ canvasMapa.height = altoCanvas
   /*anchoCanvas = anchoMaximoCanvas -80*/
 /*}*/
 
-//ataqueAleatorioEnemigo()
+//obtenerAtaques()
 let ataqueEnemigo = []
+//combate()
 let vidasJugador
 let vidasEnemigo
-//combate()
 const pVidasJugador = document.getElementById('vidas-jugador')
 const pVidasEnemigo = document.getElementById('vidas-enemigo')
-//enviarPosicion
+//enviarPosicion()
 let jugadoresConectados = []
 //ataquesLanzados()
 let ataqueJugadorLanzado
@@ -239,6 +240,9 @@ function ataquesLanzados(jugador, enemigo) {
 
 // resultado combate
 function combate() {
+  //limpiando el intervalo
+  clearInterval(intervalo)
+  
   for (let i in ataqueJugador) {
     ataquesLanzados(ataqueJugador[i], ataqueEnemigo[i])
     
@@ -274,30 +278,37 @@ function combate() {
 }
 
 
-//valida que se tenga la secuencia de ataques
-function iniciaCombate() {
-  if (ataqueJugador.length === 5) {
-    combate()
-  }
+//obteniendo ataques del servidor
+function obtenerAtaques() {
+  fetch(`http://localhost:8080/mokepon/${enemigoId}/ataques`)
+    .then(function (res) {
+      if (res.ok) {
+        res.json()
+          .then(function ({ ataques }) {
+            if (ataques.length === 5) {
+              ataqueEnemigo = ataques
+              combate()
+            }
+          })
+      }
+    })
 }
 
 
-function ataqueAleatorioEnemigo() {
-  let ataqueAleatorio = aleatorio(0, ataquesMokeponEnemigo.length-1)
-  let nombreAtaqueEnemigo = ataquesMokeponEnemigo[ataqueAleatorio].nombre
-  if (nombreAtaqueEnemigo === '🔥') {
-    ataqueEnemigo.push('FUEGO')
-  } 
-  else if (nombreAtaqueEnemigo === '🌊') {
-    ataqueEnemigo.push('AGUA')
-  } 
-  else if (nombreAtaqueEnemigo === '🌱') {
-    ataqueEnemigo.push('TIERRA')
-  }
-  console.log(ataqueEnemigo)
- 
-  //inicializando el combate
-  iniciaCombate()
+//enviando los ataques al servidor
+function enviarAtaques() {
+  fetch(`http://localhost:8080/mokepon/${jugadorId}/ataques`, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      ataques: ataqueJugador
+    })
+  })
+  
+  //solicitando los ataques del enemigo repetidamente
+  intervalo = setInterval(obtenerAtaques, 50)
 }
 
 
@@ -317,7 +328,10 @@ function secuenciaAtaqueJugador() {
       console.log(ataqueJugador)
       boton.style.background = '#112f58'
       boton.disabled = true
-      ataqueAleatorioEnemigo()
+      //enviando los 5 ataques al servidor
+      if (ataqueJugador.length === 5) {
+        enviarAtaques()
+      }
     })
   })
 }
@@ -345,6 +359,24 @@ function detenerMokepon() {
 }
 
 
+// se llama justo después de seleccionarMokeponJugador
+function seleccionarMokeponEnemigo(mokepon) {
+  //definiendo e insertando vidas enemigo
+  vidasEnemigo = mokepon.vida
+  pVidasEnemigo.innerHTML = vidasEnemigo
+  //mostrando mokepon enemigo
+  mokeponEnemigo = `
+    <p>${mokepon.nombre}</p>
+    <img src="${mokepon.foto}" alt="${mokepon.nombre}">
+  `
+  divMokeponEnemigo.innerHTML = mokeponEnemigo 
+  
+  ataquesMokeponEnemigo = mokepon.ataques
+  //agregando un evento a cada boton
+  secuenciaAtaqueJugador()
+}
+
+
 //colision de mokepones
 function revisarColision(mokeponEnemigoCanvas) {
   //dimensiones mokepon enemigo
@@ -364,6 +396,8 @@ function revisarColision(mokeponEnemigoCanvas) {
   ) {
     console.log('No hay colision')
   } else {
+    //asignandole el id al enemigo
+    enemigoId = mokeponEnemigoCanvas.id
     //alert(`Hay una colisión con ${mokeponEnemigoCanvas.nombre}`)
     detenerMokepon()
     //detener el intervalo que ejecuta a pintarCanvas()
@@ -372,6 +406,8 @@ function revisarColision(mokeponEnemigoCanvas) {
     sectionSeleccionarAtaque.style.display = 'flex'
     //ocultar la seccion del canvas
     sectionVerMapa.style.display = 'none'
+    //
+    seleccionarMokeponEnemigo(mokeponEnemigoCanvas)
   }
 }
 
@@ -394,8 +430,7 @@ function enviarPosicion(x, y) {
               const mokeponEnemigoNombre = enemigo.mokepon.nombre || ""
               for (let mokepon of mokepones) {
                 if (mokeponEnemigoNombre === mokepon.nombre) {
-                  seleccionarMokeponEnemigo(mokepon)
-                  mokeponEnemigoCanvas = new Mokepon(mokepon.nombre, mokepon.foto, 5, mokepon.imagenMokepon.src)
+                  mokeponEnemigoCanvas = new Mokepon(mokepon.nombre, mokepon.foto, 5, mokepon.imagenMokepon.src, enemigo.id)
                   mokeponEnemigoCanvas.ataques.push(...mokepon.ataques)
                 }
               }
@@ -424,11 +459,9 @@ function pintarCanvas() {
   //pintando el mokepon de los jugadores en las posiciones
   jugadoresConectados.forEach(function (mokeponEnemigoCanvas) {
     mokeponEnemigoCanvas.pintarMokepon()
-  })
-  //revisando colision 
-  if (mokeponJugadorCanvas.velocidadX !== 0 || mokeponJugadorCanvas.velocidadY !== 0) {
+    //revisando colision 
     revisarColision(mokeponEnemigoCanvas)
-  }
+  })
 }
 
 
@@ -490,24 +523,6 @@ function iniciarMapa() {
 // definiendo la aleatoriedad
 function aleatorio(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min
-}
-
-
-// se llama justo después de seleccionarMokeponJugador
-function seleccionarMokeponEnemigo(mokepon) {
-  //definiendo e insertando vidas enemigo
-  vidasEnemigo = mokepon.vida
-  pVidasEnemigo.innerHTML = vidasEnemigo
-  //mostrando mokepon enemigo
-  mokeponEnemigo = `
-    <p>${mokepon.nombre}</p>
-    <img src="${mokepon.foto}" alt="${mokepon.nombre}">
-  `
-  divMokeponEnemigo.innerHTML = mokeponEnemigo 
-  
-  ataquesMokeponEnemigo = mokepon.ataques
-  //agregando un evento a cada boton
-  secuenciaAtaqueJugador()
 }
 
 
@@ -594,8 +609,6 @@ function seleccionarMokeponJugador() {
     
     //extraer ataques jugador
     extraerAtaques(nombreMokeponJugador)
-    //mokepon enemigo
-    seleccionarMokeponEnemigo()
   }
 }
 

@@ -26,6 +26,10 @@ class Jugador {
     this.x = x
     this.y = y
   }
+  
+  asignarAtaques(ataques) {
+    this.ataques = ataques
+  }
 }
 
 class Mokepon {
@@ -62,8 +66,8 @@ app.post('/mokepon/:jugadorId', (req, res) => {
   if (jugadorIndex >= 0) {
     jugadores[jugadorIndex].asignarMokepon(mokepon) 
   }
-  console.log(jugadores)
-  console.log(jugadorId)
+  //console.log(jugadores)
+  //console.log(jugadorId)
   //termino la peticion
   res.end()
 })
@@ -82,6 +86,31 @@ app.post('/mokepon/:jugadorId/posicion', (req, res) => {
   const enemigos = jugadores.filter((jugador) => jugadorId !== jugador.id)
   //devolviendo los enemigos
   res.send({ enemigos }) //solo se pueden devolver JSON y no arrays
+})
+
+//recibiendo ataques de jugadores
+app.post('/mokepon/:jugadorId/ataques', (req, res) => {
+  const jugadorId = req.params.jugadorId || ""
+  //extrayendo el body
+  const ataques = req.body.ataques || []
+  //asignandole el mokepon al jugador
+  const jugadorIndex = jugadores.findIndex((jugador) => jugadorId === jugador.id)
+  if (jugadorIndex >= 0) {
+    jugadores[jugadorIndex].asignarAtaques(ataques) 
+  }
+  console.log(ataques)
+  //termino la peticion
+  res.end()
+})
+
+//enviando ataques de jugadores enemigos
+app.get('/mokepon/:jugadorId/ataques', (req, res) => {
+  //extrayendo id por medio de los params
+  const jugadorId = req.params.jugadorId || ""
+  const jugador = jugadores.find((jugador) => jugador.id === jugadorId)
+  res.send({ 
+    ataques: jugador.ataques || [] 
+  })
 })
 
 //escuchando las peticiones del cliente en el puerto 8080
