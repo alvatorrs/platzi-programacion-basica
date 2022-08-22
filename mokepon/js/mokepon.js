@@ -33,7 +33,6 @@ const sectionVerMapa = document.getElementById('ver-mapa')
 const canvasMapa = document.getElementById('mapa')
 let lienzo = canvasMapa.getContext('2d') //contexto 2D del canvas
 let mokeponJugadorCanvas
-let mokeponEnemigoCanvas
 let intervalo
 let mapaBackground = new Image()
 mapaBackground.src = './assets/mokemap.webp'
@@ -337,29 +336,9 @@ function secuenciaAtaqueJugador() {
 }
 
 
-//mostrando botones de ataque jugador
-function mostrarAtaques(ataquesMokeponJugador) {
-  for (let ataque of ataquesMokeponJugador) {
-    botonAtaque = `
-      <button id=${ataque.id} class="boton-ataque botones-ataque">${ataque.nombre}</button>
-    `
-    divBotonesAtaque.innerHTML += botonAtaque
-  }
-  //trayendo los botones creados
-  botones = document.querySelectorAll('.botones-ataque')
-}
-
-
 // CANVAS
 
-
-function detenerMokepon() {
-  mokeponJugadorCanvas.velocidadX = 0
-  mokeponJugadorCanvas.velocidadY = 0
-}
-
-
-// se llama justo después de seleccionarMokeponJugador
+//se llama justo después de una colision con otro jugador
 function seleccionarMokeponEnemigo(mokepon) {
   //definiendo e insertando vidas enemigo
   vidasEnemigo = mokepon.vida
@@ -374,6 +353,12 @@ function seleccionarMokeponEnemigo(mokepon) {
   ataquesMokeponEnemigo = mokepon.ataques
   //agregando un evento a cada boton
   secuenciaAtaqueJugador()
+}
+
+
+function detenerMokepon() {
+  mokeponJugadorCanvas.velocidadX = 0
+  mokeponJugadorCanvas.velocidadY = 0
 }
 
 
@@ -394,7 +379,7 @@ function revisarColision(mokeponEnemigoCanvas) {
     abajoJugador < arribaEnemigo || arribaJugador > abajoEnemigo ||
     derechaJugador < izquierdaEnemigo || izquierdaJugador > derechaEnemigo
   ) {
-    console.log('No hay colision')
+    //console.log('No hay colision')
   } else {
     //asignandole el id al enemigo
     enemigoId = mokeponEnemigoCanvas.id
@@ -425,8 +410,9 @@ function enviarPosicion(x, y) {
       if (res.ok) {
         res.json()
           .then(function ({ enemigos }) {
-            console.log(enemigos)
+            //console.log(enemigos)
             jugadoresConectados = enemigos.map(function (enemigo) {
+              let mokeponEnemigoCanvas = null
               const mokeponEnemigoNombre = enemigo.mokepon.nombre || ""
               for (let mokepon of mokepones) {
                 if (mokeponEnemigoNombre === mokepon.nombre) {
@@ -526,6 +512,19 @@ function aleatorio(min, max) {
 }
 
 
+//mostrando botones de ataque jugador
+function mostrarAtaques(ataquesMokeponJugador) {
+  for (let ataque of ataquesMokeponJugador) {
+    botonAtaque = `
+      <button id=${ataque.id} class="boton-ataque botones-ataque">${ataque.nombre}</button>
+    `
+    divBotonesAtaque.innerHTML += botonAtaque
+  }
+  //trayendo los botones creados
+  botones = document.querySelectorAll('.botones-ataque')
+}
+
+
 //extraer ataques mokepon jugador
 function extraerAtaques(nombreMokeponJugador) {
   let ataquesMokeponJugador
@@ -536,6 +535,7 @@ function extraerAtaques(nombreMokeponJugador) {
   }
   mostrarAtaques(ataquesMokeponJugador)
 }
+
 
 //enviando el mokepon al servidor
 function enviarMokeponJugador(mokeponJugadorCanvas) {
@@ -548,22 +548,6 @@ function enviarMokeponJugador(mokeponJugadorCanvas) {
       mokepon: mokeponJugadorCanvas.nombre
     })
   })
-}
-
-
-//peticion asincrona al servidor 
-function unirseAlJuego() {
-  fetch('http://localhost:8080/unirse') //GET por defecto
-    .then(function (res) {
-      console.log(res) //imprimiendo objeto res
-      if (res.ok) {
-        res.text()
-          .then(function (respuesta) {
-            console.log(respuesta) //imprimiendo la respuesta del servidor
-            jugadorId = respuesta
-          })
-      }
-    })
 }
 
 
@@ -598,18 +582,35 @@ function seleccionarMokeponJugador() {
   if (contador === 0) {
     alert('Seleccione una opción')
   } else {
-    //enviando el mokepon al backend
+    //enviando el nombre del mokepon al backend
     enviarMokeponJugador(mokeponJugadorCanvas)
     //ocultando la seccion seleccionar-mokepon
     sectionSeleccionarMokepon.style.display = 'none'
+    
+    //extraer ataques jugador
+    extraerAtaques(nombreMokeponJugador)
+    
     //mostrar la seccion del canvas
     sectionVerMapa.style.display = 'flex'
     //iniciando el mapa del canvas
     iniciarMapa()
-    
-    //extraer ataques jugador
-    extraerAtaques(nombreMokeponJugador)
   }
+}
+
+
+//recibiendo id del jugador por el servidor 
+function unirseAlJuego() {
+  fetch('http://localhost:8080/unirse') //GET por defecto
+    .then(function (res) {
+      //console.log(res) //imprimiendo objeto res
+      if (res.ok) {
+        res.text()
+          .then(function (respuesta) {
+            //console.log('id: ', respuesta) //imprimiendo la respuesta del servidor
+            jugadorId = respuesta
+          })
+      }
+    })
 }
 
 
