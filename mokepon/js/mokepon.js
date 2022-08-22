@@ -337,28 +337,6 @@ function secuenciaAtaqueJugador() {
 }
 
 
-//mostrando botones de ataque jugador
-function mostrarAtaques(ataquesMokeponJugador) {
-  for (let ataque of ataquesMokeponJugador) {
-    botonAtaque = `
-      <button id=${ataque.id} class="boton-ataque botones-ataque">${ataque.nombre}</button>
-    `
-    divBotonesAtaque.innerHTML += botonAtaque
-  }
-  //trayendo los botones creados
-  botones = document.querySelectorAll('.botones-ataque')
-}
-
-
-// CANVAS
-
-
-function detenerMokepon() {
-  mokeponJugadorCanvas.velocidadX = 0
-  mokeponJugadorCanvas.velocidadY = 0
-}
-
-
 // se llama justo después de seleccionarMokeponJugador
 function seleccionarMokeponEnemigo(mokepon) {
   //definiendo e insertando vidas enemigo
@@ -374,6 +352,15 @@ function seleccionarMokeponEnemigo(mokepon) {
   ataquesMokeponEnemigo = mokepon.ataques
   //agregando un evento a cada boton
   secuenciaAtaqueJugador()
+}
+
+
+// CANVAS
+
+
+function detenerMokepon() {
+  mokeponJugadorCanvas.velocidadX = 0
+  mokeponJugadorCanvas.velocidadY = 0
 }
 
 
@@ -523,6 +510,19 @@ function iniciarMapa() {
 // definiendo la aleatoriedad
 function aleatorio(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+
+//mostrando botones de ataque jugador
+function mostrarAtaques(ataquesMokeponJugador) {
+  for (let ataque of ataquesMokeponJugador) {
+    botonAtaque = `
+      <button id=${ataque.id} class="boton-ataque botones-ataque">${ataque.nombre}</button>
+    `
+    divBotonesAtaque.innerHTML += botonAtaque
+  }
+  //trayendo los botones creados
+  botones = document.querySelectorAll('.botones-ataque')
 }
 
 
